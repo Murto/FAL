@@ -21,7 +21,7 @@ public:
   Tokeniser(IteratorType begin, IteratorType end)
   : m_it{begin}, m_end{end} {}
 
-  std::shared_ptr<TokenType> next() {
+  std::shared_ptr<TokenType> read() {
     
     munch_whitespace();
 
