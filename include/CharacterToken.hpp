@@ -5,7 +5,7 @@
 
 
 template <typename Kind>
-class CharacterToken final : Token<Kind> {
+class CharacterToken final : public Token<Kind> {
 
 public:
   
