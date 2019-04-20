@@ -9,12 +9,12 @@ FAL is a language for modelling and executing finite automata. The specification
 # 2. Specification
 
 ```
-PROGRAM           ::= STATE-DECL, {STATE-DECL | TRANSITION-DECL}* ;
-STATE-DECLARATION ::= "state", [ STATE-QUALIFIERS ], STRING ;
-STATE-QUALIFIERS  ::= "initial" | "accepting" | "initial accepting" | "accepting initial" ;
-TRANSITION-DECL   ::= "transition", STRING, RIGHT-ARROW, ( CHARACTER | EPSILON ), RIGHT-ARROW, STRING ;
-STRING            ::= '"', CHARACTER+, '"' ;
-CHARACTER         ::= ? any ascii character excluding whitespace ? ;
-RIGHT-ARROW       ::= "->" ;
-EPSILON           ::= "epsilon" ;
+PROGRAM          ::= STATE-DECL, {STATE-DECL | TRANSITION-DECL}* ;
+STATE-DECL       ::= "state", [ STATE-QUALS ], STRING ;
+STATE-QUALS      ::= "initial" | "accepting" | "initial accepting" | "accepting initial" ;
+TRANSITION-DECL  ::= "transition", STRING, RIGHT-ARROW, ( CHARACTER | EPSILON ), RIGHT-ARROW, STRING ;
+STRING           ::= '"', CHARACTER+, '"' ;
+CHARACTER        ::= ? any ascii character excluding whitespace ? ;
+RIGHT-ARROW      ::= "->" ;
+EPSILON          ::= "epsilon" ;
 ```
