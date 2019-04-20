@@ -10,7 +10,7 @@ FAL is a language for modelling and executing finite automata. The specification
 
 ```
 PROGRAM           ::= STATE-DECL, {STATE-DECL | TRANSITION-DECL}* ;
-STATE-DECLARATION ::= [ STATE-QUALIFIERS ], "state", STRING ;
+STATE-DECLARATION ::= "state", [ STATE-QUALIFIERS ], STRING ;
 STATE-QUALIFIERS  ::= "initial" | "accepting" | "initial accepting" | "accepting initial" ;
 TRANSITION-DECL   ::= "transition", STRING, RIGHT-ARROW, ( CHARACTER | EPSILON ), RIGHT-ARROW, STRING ;
 STRING            ::= '"', CHARACTER+, '"' ;
