@@ -1,5 +1,6 @@
 #include "Tokeniser.hpp"
 #include "TokenKind.hpp"
+#include "Parser.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -32,10 +33,10 @@ int main(int argc, char** argv) {
 
   automaton_file >> std::noskipws;
 
-  auto tokeniser = make_tokeniser(std::istream_iterator<char>(automaton_file), std::istream_iterator<char>());
+  auto parser = make_parser(std::istream_iterator<char>(automaton_file), std::istream_iterator<char>());
 
   try {
-    while (tokeniser.next()->kind() != TokenKind::EOI);
+    parser.parse();
   } catch (std::runtime_error e) {
     std::cout << e.what() << '\n';
     return 1;
