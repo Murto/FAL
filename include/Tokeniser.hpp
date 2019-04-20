@@ -1,5 +1,6 @@
 #pragma once
 
+#include "CharacterToken.hpp"
 #include "StringToken.hpp"
 #include "Token.hpp"
 #include "TokenKind.hpp"
@@ -46,6 +47,8 @@ public:
     } else if (std::regex_match(buffer, STRING)) {
       std::string unquoted = buffer.substr(1, buffer.size() - 2);
       return std::shared_ptr<TokenType>(new StringToken{TokenKind::STRING, unquoted});
+    } else if (std::regex_match(buffer, CHARACTER)) {
+      return std::shared_ptr<TokenType>(new CharacterToken{TokenKind::CHARACTER, buffer[0]});
     }
 
     throw std::runtime_error{"Tokenisation error"};
@@ -60,6 +63,7 @@ private:
   static const std::regex RIGHTARROW;
   static const std::regex EPSILON;
   static const std::regex STRING;
+  static const std::regex CHARACTER;
 
   IteratorType m_it;
   const IteratorType m_end;
@@ -103,6 +107,8 @@ const std::regex Tokeniser<IteratorType>::EPSILON{"epsilon"};
 template <typename IteratorType>
 const std::regex Tokeniser<IteratorType>::STRING{"\"[a-zA-Z0-9_-]+\""};
 
+template <typename IteratorType>
+const std::regex Tokeniser<IteratorType>::CHARACTER{"[^ \t\r\n]"};
 
 template <typename IteratorType>
 Tokeniser<IteratorType> make_tokeniser(IteratorType begin, IteratorType end) {
