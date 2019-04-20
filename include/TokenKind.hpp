@@ -9,5 +9,6 @@ enum class TokenKind {
   RIGHTARROW,
   EPSILON,
   STRING,
+  CHARACTER,
   EOI
 };
