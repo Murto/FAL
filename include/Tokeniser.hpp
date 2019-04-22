@@ -18,6 +18,8 @@ class Tokeniser {
 public:
 
   using TokenType = Token<TokenKind>;
+  using CharacterTokenType = CharacterToken<TokenKind>;
+  using StringTokenType = StringToken<TokenKind>;
 
   Tokeniser(IteratorType begin, IteratorType end)
   : m_it{begin}, m_end{end} {}
@@ -46,9 +48,9 @@ public:
       return std::make_shared<TokenType>(TokenKind::EPSILON);
     } else if (std::regex_match(buffer, STRING)) {
       std::string unquoted = buffer.substr(1, buffer.size() - 2);
-      return std::shared_ptr<TokenType>(new StringToken{TokenKind::STRING, unquoted});
+      return std::shared_ptr<TokenType>(new StringTokenType{TokenKind::STRING, unquoted});
     } else if (std::regex_match(buffer, CHARACTER)) {
-      return std::shared_ptr<TokenType>(new CharacterToken{TokenKind::CHARACTER, buffer[0]});
+      return std::shared_ptr<TokenType>(new CharacterTokenType{TokenKind::CHARACTER, buffer[0]});
     }
 
     throw std::runtime_error{"Tokenisation error"};
