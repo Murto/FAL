@@ -18,6 +18,8 @@ class Parser {
 public:
 
   using TokenType = typename TokeniserType::TokenType;
+  using CharacterTokenType = typename TokeniserType::CharacterTokenType;
+  using StringTokenType = typename TokeniserType::StringTokenType;
 
   Parser(TokeniserType tokeniser)
   : m_tokeniser{tokeniser} {}
@@ -88,7 +90,7 @@ private:
     expect(TokenKind::STATE);
     auto token = expect(TokenKind::STRING);
     std::string name;
-    if (auto name_token = std::dynamic_pointer_cast<StringToken<TokenKind>>(token)) {
+    if (auto name_token = std::dynamic_pointer_cast<StringTokenType>(token)) {
         name = name_token->string();
     }
     bool initial = false;
@@ -102,7 +104,7 @@ private:
     expect(TokenKind::TRANSITION);
     auto from_token = expect(TokenKind::STRING);
     std::string from;
-    if (auto string_token = std::dynamic_pointer_cast<StringToken<TokenKind>>(from_token)) {
+    if (auto string_token = std::dynamic_pointer_cast<StringTokenType>(from_token)) {
         from = string_token->string();
     }
     expect(TokenKind::RIGHTARROW);
@@ -110,7 +112,7 @@ private:
     auto lookahead = peek_token()->kind();
     if (lookahead == TokenKind::CHARACTER) {
       auto symbol_token = read_token();
-      if (auto character_token = std::dynamic_pointer_cast<CharacterToken<TokenKind>>(symbol_token)) {
+      if (auto character_token = std::dynamic_pointer_cast<CharacterTokenType>(symbol_token)) {
           symbol = character_token->character();
       }
     }
@@ -120,7 +122,7 @@ private:
     expect(TokenKind::RIGHTARROW);
     auto to_token = expect(TokenKind::STRING);
     std::string to;
-    if (auto string_token = std::dynamic_pointer_cast<StringToken<TokenKind>>(to_token)) {
+    if (auto string_token = std::dynamic_pointer_cast<StringTokenType>(to_token)) {
         to = string_token->string();
     }
     return {from, symbol, to};
