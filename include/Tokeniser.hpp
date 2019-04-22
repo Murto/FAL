@@ -53,7 +53,7 @@ public:
       return std::shared_ptr<TokenType>(new CharacterTokenType{TokenKind::CHARACTER, buffer[0]});
     }
 
-    throw std::runtime_error{"Tokenisation error"};
+    throw std::runtime_error{"Tokenisation error: Unknown token \'" + buffer + "\'"};
   }
 
 private:
