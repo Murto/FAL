@@ -1,11 +1,15 @@
 #pragma once
 
+#include "ProgramParseTreeNode.hpp"
+#include "StateDeclParseTreeNode.hpp"
+#include "TransitionDeclParseTreeNode.hpp"
 #include "StringToken.hpp"
 #include "Token.hpp"
 #include "Tokeniser.hpp"
 #include "TokenKind.hpp"
 
 #include <memory>
+#include <optional>
 
 
 template <typename IteratorType>
@@ -19,17 +23,19 @@ public:
   Parser(IteratorType begin, IteratorType end)
   : m_tokeniser{begin, end} {}
 
-  void parse() {
-    parse_state_decl();
+  ProgramParseTreeNode parse() {
+    std::vector<StateDeclParseTreeNode> states;
+    std::vector<TransitionDeclParseTreeNode> transitions;
+    states.push_back(parse_state_decl());
     auto lookahead = peek_token()->kind();
     while (lookahead != TokenKind::EOI) {
       switch (lookahead) {
         case TokenKind::STATE: {
-          parse_state_decl();
+          states.push_back(parse_state_decl());
           break;
         }
         case TokenKind::TRANSITION: {
-          parse_transition_decl();
+          transitions.push_back(parse_transition_decl());
           break;
         }
         default: {
@@ -37,6 +43,7 @@ public:
         }
       }
     }
+    return {states, transitions};
   }
 
 private:
@@ -78,25 +85,46 @@ private:
     }
   }
 
-  void parse_state_decl() {
+  StateDeclParseTreeNode parse_state_decl() {
     expect(TokenKind::STATE);
-    expect(TokenKind::STRING);
-    maybe(TokenKind::INITIAL, [] (auto token) {});
-    maybe(TokenKind::ACCEPTING, [] (auto token) {});
+    auto token = expect(TokenKind::STRING);
+    std::string name;
+    if (auto name_token = std::dynamic_pointer_cast<StringToken<TokenKind>>(token)) {
+        name = name_token->string();
+    }
+    bool initial = false;
+    maybe(TokenKind::INITIAL, [&initial] (auto token) { initial = true; });
+    bool accepting = false;
+    maybe(TokenKind::ACCEPTING, [&accepting] (auto token) { accepting = true; });
+    return {name, initial, accepting};
   }
 
-  void parse_transition_decl() {
+  TransitionDeclParseTreeNode parse_transition_decl() {
     expect(TokenKind::TRANSITION);
-    expect(TokenKind::STRING);
+    auto from_token = expect(TokenKind::STRING);
+    std::string from;
+    if (auto string_token = std::dynamic_pointer_cast<StringToken<TokenKind>>(from_token)) {
+        from = string_token->string();
+    }
     expect(TokenKind::RIGHTARROW);
+    std::optional<char> symbol;
     auto lookahead = peek_token()->kind();
-    if (lookahead == TokenKind::CHARACTER || lookahead == TokenKind::EPSILON) {
-      read_token();
-    } else {
+    if (lookahead == TokenKind::CHARACTER) {
+      auto symbol_token = read_token();
+      if (auto character_token = std::dynamic_pointer_cast<CharacterToken<TokenKind>>(symbol_token)) {
+          symbol = character_token->character();
+      }
+    }
+    else if (lookahead != TokenKind::EPSILON) {
       throw std::runtime_error{"Parsing error"};
     }
     expect(TokenKind::RIGHTARROW);
-    expect(TokenKind::STRING);
+    auto to_token = expect(TokenKind::STRING);
+    std::string to;
+    if (auto string_token = std::dynamic_pointer_cast<StringToken<TokenKind>>(to_token)) {
+        to = string_token->string();
+    }
+    return {from, symbol, to};
   }
 
 };
