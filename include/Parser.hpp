@@ -71,32 +71,18 @@ private:
     throw std::runtime_error{"Parsing error"};
   }
 
-  void parse_state_decl() {
-    expect(TokenKind::STATE);
-    auto lookahead = peek_token()->kind();
-    if (lookahead != TokenKind::STRING) {
-      parse_state_quals();
+  template <typename CallbackType>
+  void maybe(TokenKind kind, CallbackType callback) {
+    if (peek_token()->kind() == kind) {
+      callback(read_token());
     }
-    expect(TokenKind::STRING);
   }
 
-  void parse_state_quals() {
-    auto lookahead = peek_token()->kind();
-    if (lookahead == TokenKind::INITIAL) {
-      read_token();
-      lookahead = peek_token()->kind();
-      if (lookahead == TokenKind::ACCEPTING) {
-        read_token();
-      }
-    } else if (lookahead == TokenKind::ACCEPTING) {
-      read_token();
-      lookahead = peek_token()->kind();
-      if (lookahead == TokenKind::INITIAL) {
-        read_token();
-      }
-    } else {
-      throw std::runtime_error{"Parsing error"};
-    }
+  void parse_state_decl() {
+    expect(TokenKind::STATE);
+    expect(TokenKind::STRING);
+    maybe(TokenKind::INITIAL, [] (auto token) {});
+    maybe(TokenKind::ACCEPTING, [] (auto token) {});
   }
 
   void parse_transition_decl() {
