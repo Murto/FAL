@@ -12,16 +12,15 @@
 #include <optional>
 
 
-template <typename IteratorType>
+template <typename TokeniserType>
 class Parser {
 
 public:
 
-  using TokeniserType = Tokeniser<IteratorType>;
   using TokenType = typename TokeniserType::TokenType;
 
-  Parser(IteratorType begin, IteratorType end)
-  : m_tokeniser{begin, end} {}
+  Parser(TokeniserType tokeniser)
+  : m_tokeniser{tokeniser} {}
 
   ProgramParseTreeNode parse() {
     std::vector<StateDeclParseTreeNode> states;
@@ -129,7 +128,7 @@ private:
 
 };
 
-template <typename IteratorType>
-Parser<IteratorType> make_parser(IteratorType begin, IteratorType end) {
-  return {begin, end};
+template <typename TokeniserType>
+Parser<TokeniserType> make_parser(TokeniserType tokeniser) {
+  return {tokeniser};
 }
