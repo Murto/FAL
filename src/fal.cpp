@@ -1,6 +1,7 @@
+#include "Parser.hpp"
+#include "semantics.hpp"
 #include "Tokeniser.hpp"
 #include "TokenKind.hpp"
-#include "Parser.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -36,7 +37,8 @@ int main(int argc, char** argv) {
   auto parser = make_parser(make_tokeniser(std::istream_iterator<char>(automaton_file), std::istream_iterator<char>()));
 
   try {
-    parser.parse();
+    auto program = parser.parse();
+    analyse_semantics(program);
   } catch (std::runtime_error e) {
     std::cout << e.what() << '\n';
     return 1;
