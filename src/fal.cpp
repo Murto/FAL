@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
 
   automaton_file >> std::noskipws;
 
-  auto parser = make_parser(std::istream_iterator<char>(automaton_file), std::istream_iterator<char>());
+  auto parser = make_parser(make_tokeniser(std::istream_iterator<char>(automaton_file), std::istream_iterator<char>()));
 
   try {
     parser.parse();
