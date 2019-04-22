@@ -22,35 +22,35 @@ public:
     }
   }
 
-  auto begin_states() {
+  auto states_begin() {
     return m_states.begin();
   }
 
-  auto begin_states() const {
+  auto states_begin() const {
     return m_states.cbegin();
   }
 
-  auto end_states() {
+  auto states_end() {
     return m_states.end();
   }
 
-  auto end_states() const {
+  auto states_end() const {
     return m_states.cend();
   }
 
-  auto begin_transitions() {
+  auto transitions_begin() {
     return m_transitions.begin();
   }
 
-  auto begin_transitions() const {
+  auto transitions_begin() const {
     return m_transitions.cbegin();
   }
 
-  auto end_transitions() {
+  auto transitions_end() {
     return m_transitions.end();
   }
 
-  auto end_transitions() const {
+  auto transitions_end() const {
     return m_transitions.cend();
   }
 
