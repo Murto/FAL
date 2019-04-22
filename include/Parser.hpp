@@ -43,6 +43,7 @@ public:
           throw std::runtime_error{"Parsing error: Expected STATE or TRANSITION, got " + to_string(lookahead)};
         }
       }
+      lookahead = peek_token()->kind();
     }
     return {states, transitions};
   }
