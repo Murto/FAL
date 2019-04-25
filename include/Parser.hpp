@@ -40,9 +40,10 @@ public:
           break;
         }
         default: {
-          throw std::runtime_error{"Parsing error"};
+          throw std::runtime_error{"Parsing error: Expected STATE or TRANSITION, got " + to_string(lookahead)};
         }
       }
+      lookahead = peek_token()->kind();
     }
     return {states, transitions};
   }
@@ -76,7 +77,7 @@ private:
     if (token->kind() == kind) {
       return token;
     }
-    throw std::runtime_error{"Parsing error"};
+    throw std::runtime_error{"Parsing error: Expected " + to_string(kind) + ", got " + to_string(token->kind())};
   }
 
   template <typename CallbackType>
@@ -115,9 +116,8 @@ private:
       if (auto character_token = std::dynamic_pointer_cast<CharacterTokenType>(symbol_token)) {
           symbol = character_token->character();
       }
-    }
-    else if (lookahead != TokenKind::EPSILON) {
-      throw std::runtime_error{"Parsing error"};
+    } else {
+      expect(TokenKind::EPSILON);
     }
     expect(TokenKind::RIGHTARROW);
     auto to_token = expect(TokenKind::STRING);

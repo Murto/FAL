@@ -1,5 +1,5 @@
+#include "dot.hpp"
 #include "Parser.hpp"
-#include "semantics.hpp"
 #include "Tokeniser.hpp"
 #include "TokenKind.hpp"
 
@@ -38,7 +38,8 @@ int main(int argc, char** argv) {
 
   try {
     auto program = parser.parse();
-    analyse_semantics(program);
+    auto dot = generate_dot(program);
+    std::cout << dot << '\n';
   } catch (std::runtime_error e) {
     std::cout << e.what() << '\n';
     return 1;
