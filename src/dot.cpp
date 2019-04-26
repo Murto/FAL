@@ -12,10 +12,14 @@ std::string generate_dot(const ProgramParseTreeNode& program) {
   std::ostringstream dot_out;
   dot_out << "digraph fal {\n";
   for (auto it = program.states_begin(); it != program.states_end(); ++it) {
-    dot_out << "  \"" << it->name() << "\"\n";
+    dot_out << "  \"" << it->name() << "\";\n";
   }
   for (auto it = program.transitions_begin(); it != program.transitions_end(); ++it) {
-    dot_out << "  \"" << it->from() << "\" -> \"" << it->to() << "\"\n";
+    dot_out << "  \"" << it->from() << "\" -> \"" << it->to() << '\"';
+    if (it->symbol().has_value()) {
+      dot_out << " [label=\"" << *(it->symbol()) << "\"]";
+    }
+    dot_out << ";\n";
   }
   dot_out << '}';
   return dot_out.str();
