@@ -21,6 +21,10 @@ public:
     return m_to;
   }
 
+  const std::optional<char>& symbol() const {
+    return m_symbol;
+  }
+
 private:
 
   std::string m_from;
