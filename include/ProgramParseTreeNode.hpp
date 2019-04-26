@@ -22,32 +22,16 @@ public:
     }
   }
 
-  auto states_begin() {
-    return m_states.begin();
-  }
-
   auto states_begin() const {
     return m_states.cbegin();
-  }
-
-  auto states_end() {
-    return m_states.end();
   }
 
   auto states_end() const {
     return m_states.cend();
   }
 
-  auto transitions_begin() {
-    return m_transitions.begin();
-  }
-
   auto transitions_begin() const {
     return m_transitions.cbegin();
-  }
-
-  auto transitions_end() {
-    return m_transitions.end();
   }
 
   auto transitions_end() const {
