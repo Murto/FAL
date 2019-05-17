@@ -3,24 +3,36 @@
 #include "StateDeclParseTreeNode.hpp"
 #include "TransitionDeclParseTreeNode.hpp"
 
+#include <boost/graph/adjacency_list.hpp>
+#include <boost/graph/graphviz.hpp>
+
 #include <sstream>
 #include <string>
+#include <unordered_map>
 
 
 std::string generate_dot(const ProgramParseTreeNode& program) {
+  using EdgeWeightProperty = boost::property<boost::edge_weight_t, int>;
+  using GraphType = boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, boost::no_property, EdgeWeightProperty>;
   assert_semantics(program);
-  std::ostringstream dot_out;
-  dot_out << "digraph fal {\n";
+  GraphType graph;
+  std::unordered_map<std::string, int> descriptors;
+  int i = 0;
   for (auto it = program.states_begin(); it != program.states_end(); ++it) {
-    dot_out << "  \"" << it->name() << "\";\n";
+    descriptors[it->name()] = i;
+    ++i;
   }
   for (auto it = program.transitions_begin(); it != program.transitions_end(); ++it) {
-    dot_out << "  \"" << it->from() << "\" -> \"" << it->to() << '\"';
+    auto from = descriptors[it->from()];
+    auto to = descriptors[it->to()];
     if (it->symbol()) {
-      dot_out << " [label=\"" << *(it->symbol()) << "\"]";
+      boost::add_edge(from, to, graph);
+    } else {
+      boost::add_edge(from, to, graph);
     }
-    dot_out << ";\n";
   }
-  dot_out << '}';
-  return dot_out.str();
+
+  std::ostringstream dot;
+  boost::write_graphviz(dot, graph);
+  return dot.str();
 }
