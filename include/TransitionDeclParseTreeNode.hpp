@@ -2,7 +2,8 @@
 
 #include "ParseTreeNode.hpp"
 
-#include <optional>
+#include <boost/optional.hpp>
+
 #include <string>
 
 
@@ -10,7 +11,7 @@ class TransitionDeclParseTreeNode : public ParseTreeNode {
 
 public:
 
-  TransitionDeclParseTreeNode(std::string from, std::optional<char> symbol, std::string to)
+  TransitionDeclParseTreeNode(std::string from, boost::optional<char> symbol, std::string to)
   : m_from{from}, m_symbol{symbol}, m_to{to} {}
 
   const std::string& from() const {
@@ -21,14 +22,14 @@ public:
     return m_to;
   }
 
-  const std::optional<char>& symbol() const {
+  const boost::optional<char>& symbol() const {
     return m_symbol;
   }
 
 private:
 
   std::string m_from;
-  std::optional<char> m_symbol;
+  boost::optional<char> m_symbol;
   std::string m_to;
 
 };

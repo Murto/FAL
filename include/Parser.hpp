@@ -8,8 +8,9 @@
 #include "Tokeniser.hpp"
 #include "TokenKind.hpp"
 
+#include <boost/optional.hpp>
+
 #include <memory>
-#include <optional>
 
 
 template <typename TokeniserType>
@@ -109,7 +110,7 @@ private:
         from = string_token->string();
     }
     expect(TokenKind::RIGHTARROW);
-    std::optional<char> symbol;
+    boost::optional<char> symbol;
     auto lookahead = peek_token()->kind();
     if (lookahead == TokenKind::CHARACTER) {
       auto symbol_token = read_token();

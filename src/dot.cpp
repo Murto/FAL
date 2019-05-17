@@ -16,7 +16,7 @@ std::string generate_dot(const ProgramParseTreeNode& program) {
   }
   for (auto it = program.transitions_begin(); it != program.transitions_end(); ++it) {
     dot_out << "  \"" << it->from() << "\" -> \"" << it->to() << '\"';
-    if (it->symbol().has_value()) {
+    if (it->symbol()) {
       dot_out << " [label=\"" << *(it->symbol()) << "\"]";
     }
     dot_out << ";\n";
