@@ -28,7 +28,7 @@ std::string generate_dot(const ProgramParseTreeNode& program) {
     auto from = descriptors[it->from()];
     auto to = descriptors[it->to()];
     if (it->symbol()) {
-      boost::add_edge(from, to, {std::string{1, *it->symbol()}}, graph);
+      boost::add_edge(from, to, {std::string{*it->symbol()}}, graph);
     } else {
       boost::add_edge(from, to, {std::string{"epsilon"}}, graph);
     }
