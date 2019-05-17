@@ -40,6 +40,15 @@ void assert_discrete_state_names(const ProgramParseTreeNode& program) {
   }
 }
 
+void assert_initial_state_existance(const ProgramParseTreeNode& program) {
+  for (auto it = program.states_begin(); it != program.states_end(); ++it) {
+    if (it->initial()) {
+      return
+    } else {
+      throw std::runtime_error{"Semantic error"};
+    }
+}
+
 void assert_transition_states_existance(const ProgramParseTreeNode& program) {
   std::unordered_set<std::string> state_names;
   for (auto it = program.states_begin(); it != program.states_end(); ++it) {
