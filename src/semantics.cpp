@@ -9,16 +9,9 @@
 
 
 void assert_semantics(const ProgramParseTreeNode& program) {
-  std::unordered_set<std::string> state_names;
+  assert_discrete_state_names(program);
+  assert_transition_states_existance(program);
   assert_initial_state_existance(program);
-  for (auto it = program.transitions_begin(); it != program.transitions_end(); ++it) {
-    if (state_names.find(it->from()) == state_names.end()) {
-      throw std::runtime_error{"Semantic error"};
-    }
-    if (state_names.find(it->to()) == state_names.end()) {
-      throw std::runtime_error{"Semantic error"};
-    }
-  }
 }
 
 void assert_discrete_state_names(const ProgramParseTreeNode& program) {
