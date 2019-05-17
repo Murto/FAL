@@ -8,7 +8,7 @@
 
 
 std::string generate_dot(const ProgramParseTreeNode& program) {
-  analyse_semantics(program);
+  assert_semantics(program);
   std::ostringstream dot_out;
   dot_out << "digraph fal {\n";
   for (auto it = program.states_begin(); it != program.states_end(); ++it) {
