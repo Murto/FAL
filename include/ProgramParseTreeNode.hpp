@@ -38,6 +38,14 @@ public:
     return m_transitions.cend();
   }
 
+  auto state_count() const {
+    return m_states.size();
+  }
+
+  auto transition_count() const {
+    return m_states.size();
+  }
+
 private:
 
   StateDeclContainerType m_states;
