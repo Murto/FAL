@@ -28,7 +28,6 @@ public:
   ProgramParseTreeNode parse() {
     std::vector<StateDeclParseTreeNode> states;
     std::vector<TransitionDeclParseTreeNode> transitions;
-    states.push_back(parse_state_decl());
     auto lookahead = peek_token()->kind();
     while (lookahead != TokenKind::EOI) {
       switch (lookahead) {
