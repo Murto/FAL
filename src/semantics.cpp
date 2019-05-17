@@ -7,7 +7,7 @@
 #include <unordered_set>
 
 
-void analyse_semantics(const ProgramParseTreeNode& program) {
+void assert_semantics(const ProgramParseTreeNode& program) {
   std::unordered_set<std::string> state_names;
   bool initial = false;
   for (auto it = program.states_begin(); it != program.states_end(); ++it) {

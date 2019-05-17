@@ -3,4 +3,4 @@
 #include "ProgramParseTreeNode.hpp"
 
 
-void analyse_semantics(const ProgramParseTreeNode& program);
+void assert_semantics(const ProgramParseTreeNode& program);
