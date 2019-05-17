@@ -4,6 +4,10 @@ cmake_minimum_required(VERSION 3.7.2)
 # Set C++ version
 set(CMAKE_CXX_STANDARD 14)
 
+# Include Boost library
+set(BOOST_INCLUDEDIR "/usr/include")
+find_package(Boost REQUIRED)
+
 # Set project
 project(fal LANGUAGES CXX)
 
