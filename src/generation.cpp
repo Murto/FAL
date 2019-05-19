@@ -11,6 +11,7 @@ void generate_file(const ProgramParseTreeNode& program, const std::string& file_
   auto* gvc = gvContext();
   auto* graph_name = const_cast<char*>("graph");
   auto* graph = agopen(graph_name, Agdirected, NULL);
+  agattr(graph, AGNODE, const_cast<char*>("shape"), const_cast<char*>("circle"));
   std::unordered_map<std::string, Agnode_t*> nodes;
   for (auto it = program.states_begin(); it != program.states_end(); ++it) {
     auto* node = agnode(graph, const_cast<char*>(it->name().c_str()), TRUE);
