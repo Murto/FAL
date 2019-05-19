@@ -55,3 +55,7 @@ void generate_dot(const ProgramParseTreeNode& program, const std::string& file_p
 void generate_png(const ProgramParseTreeNode& program, const std::string& file_path) {
   generate_file(program, file_path, "png");
 }
+
+void generate_postscript(const ProgramParseTreeNode& program, const std::string& file_path) {
+  generate_file(program, file_path, "ps");
+}
