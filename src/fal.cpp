@@ -34,8 +34,7 @@ int main(int argc, char** argv) {
 
     // Exit if the given file does not exist
     if (!automaton_file) {
-      const std::string INVALID_PATH = "Invalid path: \"" + input_file_path + "\"";
-      std::cout << INVALID_PATH << '\n';
+      std::cout << "Invalid file path: \"" << input_file_path << '\"';
       return 1;
     }
 
@@ -44,18 +43,20 @@ int main(int argc, char** argv) {
     try {
       auto parser = make_parser(make_tokeniser(std::istream_iterator<char>(automaton_file), std::istream_iterator<char>()));
       auto program = parser.parse();
-      if (vm["format"].as<std::string>() == "dot") {
+      auto format = vm["format"].as<std::string>();
+      if (format == "dot") {
         generate_dot(program, input_file_path + ".dot");
-      } else if (vm["format"].as<std::string>() == "gif") {
+      } else if (format == "gif") {
         generate_postscript(program, input_file_path + ".gif");
-      } else if (vm["format"].as<std::string>() == "png") {
+      } else if (format == "png") {
         generate_png(program, input_file_path + ".png");
-      } else if (vm["format"].as<std::string>() == "ps") {
+      } else if (format == "ps") {
         generate_postscript(program, input_file_path + ".ps");
-      } else if (vm["format"].as<std::string>() == "svg") {
+      } else if (format == "svg") {
         generate_postscript(program, input_file_path + ".svg");
       } else {
-        std::cerr << "Invalid output format";
+        std::cerr << "Invalid output format: \"" << format << '\n';
+        std::cerr << "Valid formats: dot, gif, png, ps, svg\n";
       }
     } catch (std::runtime_error e) {
       std::cout << e.what() << '\n';
