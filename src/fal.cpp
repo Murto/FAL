@@ -55,7 +55,7 @@ int main(int argc, char** argv) {
       } else if (format == "svg") {
         generate_postscript(program, input_file_path + ".svg");
       } else {
-        std::cerr << "Invalid output format: \"" << format << '\n';
+        std::cerr << "Invalid output format: \"" << format << "\"\n";
         std::cerr << "Valid formats: dot, gif, png, ps, svg\n";
       }
     } catch (const std::runtime_error& e) {
