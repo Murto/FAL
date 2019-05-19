@@ -6,12 +6,12 @@
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/graphviz.hpp>
 
-#include <sstream>
+#include <fstream>
 #include <string>
 #include <unordered_map>
 
 
-std::string generate_dot(const ProgramParseTreeNode& program) {
+void generate_dot(const ProgramParseTreeNode& program, const std::string& file_path) {
   struct VertexProperties { std::string name; };
   struct EdgeProperties { std::string name; };
   using GraphType = boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, VertexProperties, EdgeProperties>;
@@ -34,7 +34,6 @@ std::string generate_dot(const ProgramParseTreeNode& program) {
     }
   }
   
-  std::ostringstream dot;
-  boost::write_graphviz(dot, graph, boost::make_label_writer(get(&VertexProperties::name, graph)), boost::make_label_writer(get(&EdgeProperties::name, graph)));
-  return dot.str();
+  std::ofstream output{file_path};
+  boost::write_graphviz(output, graph, boost::make_label_writer(get(&VertexProperties::name, graph)), boost::make_label_writer(get(&EdgeProperties::name, graph)));
 }

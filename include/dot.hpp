@@ -2,5 +2,7 @@
 
 #include "ProgramParseTreeNode.hpp"
 
+#include <string>
 
-std::string generate_dot(const ProgramParseTreeNode& program);
+
+void generate_dot(const ProgramParseTreeNode& program, const std::string& file_path);
