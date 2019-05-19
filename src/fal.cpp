@@ -58,7 +58,7 @@ int main(int argc, char** argv) {
         std::cerr << "Invalid output format: \"" << format << '\n';
         std::cerr << "Valid formats: dot, gif, png, ps, svg\n";
       }
-    } catch (std::runtime_error e) {
+    } catch (const std::runtime_error& e) {
       std::cout << e.what() << '\n';
       return 1;
     }
