@@ -62,7 +62,8 @@ int main(int argc, char** argv) {
       std::cout << e.what() << '\n';
       return 1;
     }
-  } catch (const boost::program_options::error& e) {
-    std::cerr << e.what() << '\n';
+  } catch (...) {
+    std::cerr << "Usage: fal file format\n";
+    return 1;
   }
 }
