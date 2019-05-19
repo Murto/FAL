@@ -13,9 +13,16 @@ void generate_file(const ProgramParseTreeNode& program, const std::string& file_
   auto* graph = agopen(graph_name, Agdirected, NULL);
   agattr(graph, AGNODE, const_cast<char*>("shape"), const_cast<char*>("circle"));
   std::unordered_map<std::string, Agnode_t*> nodes;
+  int initial_id = 0;
   for (auto it = program.states_begin(); it != program.states_end(); ++it) {
     auto* node = agnode(graph, const_cast<char*>(it->name().c_str()), TRUE);
     nodes[it->name()] = node;
+    if (it->initial()) {
+      auto id = "initial" + std::to_string(initial_id);
+      auto* dummy_node = agnode(graph, const_cast<char*>(""), TRUE);
+      agset(dummy_node, const_cast<char*>("shape"), const_cast<char*>("none"));
+      agedge(graph, dummy_node, node, NULL, TRUE);
+    }
     if (it->accepting()) {
       agset(node, const_cast<char*>("shape"), const_cast<char*>("doublecircle"));
     }
@@ -32,9 +39,9 @@ void generate_file(const ProgramParseTreeNode& program, const std::string& file_
       label = "epsilon";
     }
     auto* edge = agedge(graph, from, to, const_cast<char*>(id.c_str()), TRUE);
-    agsafeset(edge, const_cast<char*>("label"), const_cast<char*>(label.c_str()), const_cast<char*>("ERROR"));
+    agsafeset(edge, const_cast<char*>("label"), const_cast<char*>(label.c_str()), const_cast<char*>(""));
   }
-  gvLayout(gvc, graph, "circo");
+  gvLayout(gvc, graph, "sfdp");
   gvRenderFilename(gvc, graph, format.c_str(), file_path.c_str());
   gvFreeLayout(gvc, graph);
   agclose(graph);
