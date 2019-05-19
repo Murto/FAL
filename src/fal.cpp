@@ -20,7 +20,8 @@ int main(int argc, char** argv) {
       ("format", boost::program_options::value<std::string>()->required(), "Output format");
     
     boost::program_options::positional_options_description pos_desc;
-    pos_desc.add("file", -1);
+    pos_desc.add("file", 1);
+    pos_desc.add("format", 2);
 
     boost::program_options::command_line_parser parser{argc, argv};
     boost::program_options::variables_map vm;
