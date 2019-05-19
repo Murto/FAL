@@ -16,6 +16,9 @@ void generate_file(const ProgramParseTreeNode& program, const std::string& file_
   for (auto it = program.states_begin(); it != program.states_end(); ++it) {
     auto* node = agnode(graph, const_cast<char*>(it->name().c_str()), TRUE);
     nodes[it->name()] = node;
+    if (it->accepting()) {
+      agset(node, const_cast<char*>("shape"), const_cast<char*>("doublecircle"));
+    }
   }
   int edge_id = 0;
   for (auto it = program.transitions_begin(); it != program.transitions_end(); ++it) {
