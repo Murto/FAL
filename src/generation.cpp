@@ -59,3 +59,7 @@ void generate_png(const ProgramParseTreeNode& program, const std::string& file_p
 void generate_postscript(const ProgramParseTreeNode& program, const std::string& file_path) {
   generate_file(program, file_path, "ps");
 }
+
+void generate_svg(const ProgramParseTreeNode& program, const std::string& file_path) {
+  generate_file(program, file_path, "svg");
+}
