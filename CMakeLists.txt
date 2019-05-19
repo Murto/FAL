@@ -7,15 +7,19 @@ set(CMAKE_CXX_STANDARD 14)
 # Set project
 project(fal LANGUAGES CXX)
 
-# Include Boost library
+# Include Boost libraries
 set(BOOST_INCLUDEDIR "/usr/include")
-find_package(Boost REQUIRED)
+find_package(Boost REQUIRED COMPONENTS program_options)
+include_directories(${Boost_INCLUDE_DIR})
 
 # Set sources to source files under src directory
 file(GLOB SOURCES "src/*.cpp")
 
 # Add FAL executable
 add_executable(fal ${SOURCES})
+
+# Link Boost libraries
+target_link_libraries(fal ${Boost_LIBRARIES})
 
 # Include graphviz libraries
 find_library(GVC_LIB gvc)
