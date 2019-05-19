@@ -47,6 +47,8 @@ int main(int argc, char** argv) {
         generate_dot(program, input_file_path + ".dot");
       } else if (vm["format"].as<std::string>() == "png") {
         generate_png(program, input_file_path + ".png");
+      } else if (vm["format"].as<std::string>() == "ps") {
+        generate_postscript(program, input_file_path + ".ps");
       } else {
         std::cerr << "Invalid output format";
       }
