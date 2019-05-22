@@ -12,19 +12,38 @@
 
 #include <memory>
 
+/*! @file */
 
+/*!
+ * @brief Used for transforming input from a tokeniser into a parse tree.
+ * @author Murray Steele
+ *
+ * @tparam TokeniserType - The tokeniser type
+ */
 template <typename TokeniserType>
 class Parser {
 
 public:
 
-  using TokenType = typename TokeniserType::TokenType;
-  using CharacterTokenType = typename TokeniserType::CharacterTokenType;
-  using StringTokenType = typename TokeniserType::StringTokenType;
+  using TokenType = typename TokeniserType::TokenType;                   //!< The token type.
+  using CharacterTokenType = typename TokeniserType::CharacterTokenType; //!< The tokens-with-associated-character-values type.
+  using StringTokenType = typename TokeniserType::StringTokenType;       //!< The tokens-with-associated-string-values type.
 
+  /*!
+   * @brief Constructs a Parser with the given tokeniser.
+   *
+   * @param tokeniser - The given tokeniser
+   */
   Parser(TokeniserType tokeniser)
   : m_tokeniser{tokeniser} {}
 
+  /*!
+   * @brief Transforms input from the underlying tokeniser into a parse tree.
+   *
+   * @throw std::runtime_error if input from the tokeniser does not fit the FAL grammer specification
+   *
+   * @return a parse tree
+   */
   ProgramParseTreeNode parse() {
     std::vector<StateDeclParseTreeNode> states;
     std::vector<TransitionDeclParseTreeNode> transitions;
@@ -50,9 +69,14 @@ public:
 
 private:
 
-  TokeniserType m_tokeniser;
-  std::shared_ptr<TokenType> m_lookahead{};
+  TokeniserType m_tokeniser;                //!< The underlying tokeniser.
+  std::shared_ptr<TokenType> m_lookahead{}; //!< A lookahead for the next token to be parsed.
 
+  /*!
+   * @brief Reads the next token from the underlying tokeniser.
+   *
+   * @return a shared pointer to the next token
+   */
   std::shared_ptr<TokenType> read_token() {
     if (m_lookahead) {
       auto lookahead = m_lookahead;
@@ -63,6 +87,11 @@ private:
     }
   }
 
+  /*!
+   * @brief Peeks at the next token from the underlying tokeniser.
+   *
+   * @return a shared pointer to the next token
+   */
   std::shared_ptr<TokenType> peek_token() {
     if (m_lookahead) {
       return m_lookahead;
@@ -72,6 +101,15 @@ private:
     }
   }
 
+  /*!
+   * @brief Asserts that the next token from the underlying tokeniser is of the given kind.
+   *
+   * @param kind - The given kind
+   *
+   * @throw std::runtime_error if the next token is not of the given kind
+   *
+   * @return a shared pointer to the next token
+   */
   std::shared_ptr<TokenType> expect(TokenKind kind) {
     auto token = read_token();
     if (token->kind() == kind) {
@@ -80,6 +118,13 @@ private:
     throw std::runtime_error{"Parsing error: Expected " + to_string(kind) + ", got " + to_string(token->kind())};
   }
 
+  /*!
+   * @brief Reads the next token and passes it into the given callback function, if and only if it is of the given kind.
+   *
+   * @tparam CallbackType - The given callback function type
+   * @param kind          - The given kind
+   * @param callback      - The given callback function
+   */
   template <typename CallbackType>
   void maybe(TokenKind kind, CallbackType callback) {
     if (peek_token()->kind() == kind) {
@@ -87,6 +132,13 @@ private:
     }
   }
 
+  /*!
+   * @brief Parses a STATE-DECL as per the FAL language specification.
+   *
+   * @throw std::runtime_error if input from the underlying tokeniser does not fit the specification for a STATE-DECL
+   *
+   * @return a STATE-DECL parse tree node
+   */
   StateDeclParseTreeNode parse_state_decl() {
     expect(TokenKind::STATE);
     auto token = expect(TokenKind::STRING);
@@ -101,6 +153,13 @@ private:
     return {name, initial, accepting};
   }
 
+  /*!
+   * @brief Parses a TRANSITION-DECL as per the FAL language specification.
+   *
+   * @throw std::runtime_error if input from the underlying tokeniser does not fit the specification for a TRANSITION-DECL
+   *
+   * @return a TRANSITION-DECL parse tree node
+   */
   TransitionDeclParseTreeNode parse_transition_decl() {
     expect(TokenKind::TRANSITION);
     auto from_token = expect(TokenKind::STRING);
@@ -130,6 +189,12 @@ private:
 
 };
 
+/*!
+ * @brief Constructs and returns a Parser with the given tokeniser.
+ *        Does not require specifying template parameters unlike calling the Parser constructor directly.
+ *
+ * @return a Parser with the given underlying tokeniser
+ */
 template <typename TokeniserType>
 Parser<TokeniserType> make_parser(TokeniserType tokeniser) {
   return {tokeniser};
