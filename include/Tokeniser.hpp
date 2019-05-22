@@ -76,7 +76,7 @@ public:
     throw std::runtime_error{"Tokenisation error: Unknown token \'" + buffer + "\'"};
   }
 
-/private:
+private:
 
   static const std::regex STATE;      //!< The regex pattern for a FAL STATE token.
   static const std::regex INITIAL;    //!< The regex pattern for a FAL INITIAL token.
