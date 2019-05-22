@@ -85,7 +85,7 @@ public:
    * @return the number of TRANSITION-DECL parse tree nodes
    */
   auto transition_count() const {
-    return m_states.size();
+    return m_transitions.size();
   }
 
 private:
