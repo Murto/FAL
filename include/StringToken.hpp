@@ -29,7 +29,7 @@ public:
    *
    * @return const reference to the string value
    */
-  const std::string& string() {
+  const std::string& string() const {
     return m_string;
   }
 
