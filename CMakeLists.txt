@@ -38,3 +38,5 @@ target_include_directories(fal
 
 # Make warnings errors
 target_compile_options(fal PRIVATE -Werror)
+
+install(TARGETS fal DESTINATION bin)
