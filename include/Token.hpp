@@ -31,7 +31,7 @@ public:
    *
    * @return the kind of the Token
    */
-  Kind kind() {
+  Kind kind() const {
     return m_kind;
   }
 
