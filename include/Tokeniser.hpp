@@ -45,15 +45,11 @@ public:
    * @return a shared pointer to the next FAL token if the remaining range is not empty and a shared pointer to a token of kind TokenKind::EOI otherwise
    */
   std::shared_ptr<TokenType> read() {
-    
     munch_whitespace();
-
     std::string buffer = next_word();
-
     if (buffer.empty()) {
       return std::make_shared<TokenType>(TokenKind::EOI);
     }
-
     if (std::regex_match(buffer, STATE)) {
       return std::make_shared<TokenType>(TokenKind::STATE);
     } else if (std::regex_match(buffer, INITIAL)) {
@@ -72,7 +68,6 @@ public:
     } else if (std::regex_match(buffer, CHARACTER)) {
       return std::shared_ptr<TokenType>(new CharacterTokenType{TokenKind::CHARACTER, buffer[0]});
     }
-
     throw std::runtime_error{"Tokenisation error: Unknown token \'" + buffer + "\'"};
   }
 
