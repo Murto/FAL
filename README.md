@@ -59,3 +59,18 @@ The following formats are available:
 | png | A .png image |
 | ps | A .ps (PostScript) file |
 | svg | A .svg image |
+
+
+## Documentation
+
+Documentation for this project is generated using Doxygen, and is available in html and latex forms.
+
+The following command assumes you are inside the `docs` directory.
+
+Generate documentation:
+
+```bash
+doxygen Doxyfile
+```
+
+The generated documentation is available under the `docs/html` and `docs/latex` directories.
