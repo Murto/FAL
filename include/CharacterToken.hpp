@@ -28,7 +28,7 @@ public:
    *
    * @return const reference to the character value
    */
-  const char& character() {
+  const char& character() const {
     return m_character;
   }
 
