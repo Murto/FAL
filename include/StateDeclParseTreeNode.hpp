@@ -20,7 +20,7 @@ public:
    * @param accepting - The given accepting flag
    */
   StateDeclParseTreeNode(std::string name, bool initial = false, bool accepting = false)
-  : m_name{name}, m_initial{initial}, m_accepting{accepting} {}
+  : m_name{std::move(name)}, m_initial{initial}, m_accepting{accepting} {}
 
   /*!
    * @brief Returns the name of the state associated with the STATE-DECL production.

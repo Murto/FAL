@@ -8,6 +8,7 @@
 #include <boost/optional.hpp>
 
 #include <memory>
+#include <utility>
 
 /*! @file */
 
@@ -32,7 +33,7 @@ public:
    * @param tokeniser - The given tokeniser
    */
   Parser(TokeniserType tokeniser)
-  : m_tokeniser{tokeniser} {}
+  : m_tokeniser{std::move(tokeniser)} {}
 
   /*!
    * @brief Transforms input from the underlying tokeniser into a parse tree.

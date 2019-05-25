@@ -22,7 +22,7 @@ public:
    * @param to     - The given to-state name
    */
   TransitionDeclParseTreeNode(std::string from, boost::optional<char> symbol, std::string to)
-  : m_from{from}, m_symbol{symbol}, m_to{to} {}
+  : m_from{std::move(from)}, m_symbol{std::move(symbol)}, m_to{std::move(to)} {}
 
   /*!
    * @brief Returns the from-state name of the associated TRANSITION-DECL production.

@@ -28,7 +28,7 @@ public:
    * @throw std::runtime_error if no STATE-DECL parse tree nodes are given
    */
   ProgramParseTreeNode(std::vector<StateDeclParseTreeNode> states, std::vector<TransitionDeclParseTreeNode> transitions)
-  : m_states{states}, m_transitions{transitions} {
+  : m_states{std::move(states)}, m_transitions{std::move(transitions)} {
     if (states.empty()) {
       throw std::runtime_error{"Must have at least one state"};
     }

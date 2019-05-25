@@ -22,7 +22,7 @@ public:
    * @param string - The given string value
    */
   StringToken(Kind kind, std::string string)
-  : Token<Kind>(kind), m_string{string} {}
+  : Token<Kind>(kind), m_string{std::move(string)} {}
 
   /*!
    * @brief Returns the string value of the StringToken.
