@@ -3,9 +3,6 @@
 #include "ProgramParseTreeNode.hpp"
 #include "StateDeclParseTreeNode.hpp"
 #include "TransitionDeclParseTreeNode.hpp"
-#include "StringToken.hpp"
-#include "Token.hpp"
-#include "Tokeniser.hpp"
 #include "TokenKind.hpp"
 
 #include <boost/optional.hpp>

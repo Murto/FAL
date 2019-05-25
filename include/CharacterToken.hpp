@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Token.hpp"
-#include "TokenKind.hpp"
 
 /*!
  * @brief Represents a token of a given kind with an associated character value.
